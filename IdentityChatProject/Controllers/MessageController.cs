@@ -58,6 +58,7 @@ namespace IdentityChatProject.Controllers
 			message.IsRead = false;
 			_context.Messages.Add(message);
 			_context.SaveChanges();
+			TempData["Success"] = "Mesajınız Başarıyla İletildi";
 			return RedirectToAction("Sendbox");
 		}
 	}
