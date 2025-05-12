@@ -77,13 +77,13 @@ namespace IdentityChatProject.Controllers
 		}
 		public async Task<IActionResult> ChangeIsReadToTrue(int id)
 		{
-			var message = await _context.Messages.FindAsync(id);  // Mesajı asenkron şekilde buluyoruz
+			var message = await _context.Messages.FindAsync(id);  
 			if (message != null)
 			{
-				message.IsRead = true;  // Mesajı okundu olarak işaretliyoruz
-				await _context.SaveChangesAsync();  // Değişiklikleri asenkron kaydediyoruz
+				message.IsRead = true;  
+				await _context.SaveChangesAsync();  
 			}
-			return RedirectToAction("Inbox");  // Inbox sayfasına yönlendiriyoruz
+			return RedirectToAction("Inbox");  
 		}
 
 		public async Task<IActionResult> ChangeIsReadToFalse(int id)
@@ -105,14 +105,14 @@ namespace IdentityChatProject.Controllers
 				message.IsInTrash = true;
 				await _context.SaveChangesAsync();
 			}
-			return RedirectToAction("Inbox"); // Çöp kutusuna taşındıktan sonra Inbox'a yönlendiriyoruz.
+			return RedirectToAction("Inbox"); 
 		}
 		public async Task<IActionResult> Trash()
 		{
 			var values = await _userManager.FindByNameAsync(User.Identity.Name);
 
 			var trashMessages = _context.Messages
-				.Where(x => x.ReceiverEmail == values.Email && x.IsInTrash)  // Çöp kutusundaki mesajları filtreliyoruz
+				.Where(x => (x.ReceiverEmail == values.Email || x.SenderEmail == values.Email) && x.IsInTrash)
 				.ToList();
 			ViewBag.TrashMessages = trashMessages.Count();
 			return View(trashMessages);
