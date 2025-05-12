@@ -1,9 +1,9 @@
 ﻿@model List<IdentityChatProject.Entities.Message>
 @{
-    ViewData["Title"] = "Inbox";
+    ViewData["Title"] = "Trash";
     Layout = "~/Views/Shared/_MessageLayout.cshtml";
-    int count = 0;
 }
+
 
 <div class="container-fluid">
     <div class="row">
@@ -55,11 +55,16 @@
                                     <div class="text-muted text-end" style="width: 100px;">
                                         @item.SendDate.ToShortDateString()
                                     </div>
+
+                                    <!-- Çöp kutusundan çıkarma -->
+                                    <div>
+                                        <a href="@Url.Action("RestoreFromTrash", "Message", new { id = item.MessageId })" class="text-success" title="Çöp kutusundan geri al">
+                                            <i class="fa fa-undo"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             }
                         </div>
-
-
                     </div>
                 </div>
             </div>

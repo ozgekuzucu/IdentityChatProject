@@ -25,14 +25,14 @@ namespace IdentityChatProject.Controllers
 			var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, true);
 			if (result.Succeeded)
 			{
-				return RedirectToAction("Inbox", "Message");
+				return RedirectToAction("Index", "Default");
 			}
 			return View();
 		}
 		public async Task<IActionResult> Logout()
 		{
 			await _signInManager.SignOutAsync();
-			return RedirectToAction("Index","Login");
+			return RedirectToAction("UserLogin","Login");
 		}
 	}
 }

@@ -11,9 +11,14 @@
                 <div class="card-body">
                     @await Component.InvokeAsync("_MessageSidebarComponentPartial")
                     <div class="email-right-box">
+                        <div role="toolbar" class="toolbar">
+                            <form action="@Url.Action("MoveToTrash", new { id = Model.MessageId })" method="post">
+                                <button type="submit" class="btn btn-danger">Çöp Kutusuna Taşı</button>
+                            </form>
+                        </div>
+                        <br />
                         <div class="read-content">
                             <div class="media pt-5">
-                                <img class="mr-3 rounded-circle" src="images/avatar/1.jpg">
                                 <div class="media-body">
                                     <h5 class="m-b-3">@Model.SenderEmail</h5>
                                     <p class="m-b-2">@Model.SendDate.ToShortDateString()</p>
@@ -23,7 +28,7 @@
                             <hr>
                             <div class="media mb-4 mt-1">
                                 <div class="media-body">
-                                    <h4 class="m-0 text-primary">@Model.Subject</h4><small class="text-muted">To:@Model.ReceiverEmail</small>
+                                    <h4 class="m-0 text-primary">@Model.Subject</h4><small class="text-muted">Kime: @Model.ReceiverEmail</small>
                                 </div>
                             </div>
                             <p>@Model.MessageDetail</p>

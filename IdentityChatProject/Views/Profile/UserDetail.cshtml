@@ -1,4 +1,14 @@
-﻿@{
+﻿@model UserUpdateViewModel
+@{
+    ViewData["Title"] = "UserDetail";
+    Layout = "~/Views/Shared/_MessageLayout.cshtml";
+}
+<!-- Başarılı güncelleme mesajı -->
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@{
     ViewData["Title"] = "UserDetail";
     Layout = "~/Views/Shared/_MessageLayout.cshtml";
 }
@@ -9,38 +19,20 @@
             <div class="card">
                 <div class="card-body">
                     <div class="media align-items-center mb-4">
-                        <img class="mr-3" src="images/avatar/11.png" width="80" height="80" alt="">
+                        <img class="mr-3" src="@Model.ImageUrl" width="80" height="80" alt="">
                         <div class="media-body">
-                            <h3 class="mb-0">@ViewBag.v1 @ViewBag.v2</h3>
-                            <p class="text-muted mb-0">@ViewBag.v3</p>
+                            <h3 class="mb-0">@Model.Name @Model.Surname</h3>
+                            <p class="text-muted mb-0">@Model.Email</p>
                         </div>
                     </div>
 
-                    <div class="row mb-5">
-                        <div class="col">
-                            <div class="card card-profile text-center">
-                                <span class="mb-1 text-primary"><i class="icon-people"></i></span>
-                                <h3 class="mb-0">263</h3>
-                                <p class="text-muted px-4">Following</p>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card card-profile text-center">
-                                <span class="mb-1 text-warning"><i class="icon-user-follow"></i></span>
-                                <h3 class="mb-0">263</h3>
-                                <p class="text-muted">Followers</p>
-                            </div>
-                        </div>
-                        <div class="col-12 text-center">
-                            <button class="btn btn-danger px-5">Follow Now</button>
-                        </div>
-                    </div>
+                    @await Component.InvokeAsync("_MessageStatsViewComponentPartial")
 
-                    <h4>Hakkımda</h4>
-                    <p class="text-muted">Hi, I'm Pikamy, has been the industry standard dummy text ever since the 1500s.</p>
+
+                    <h4>İletişim Bilgileri</h4>
                     <ul class="card-profile__info">
-                        <li class="mb-1"><strong class="text-dark mr-4">Telefon</strong> <span>01793931609</span></li>
-                        <li><strong class="text-dark mr-4">Mail</strong> <span>name@domain.com</span></li>
+                        <li class="mb-1"><strong class="text-dark mr-4">Telefon</strong> <span>@Model.PhoneNumber</span></li>
+                        <li><strong class="text-dark mr-4">Mail</strong> <span>@Model.Email</span></li>
                     </ul>
                 </div>
             </div>
@@ -52,30 +44,34 @@
                         <div style="width: 100%; max-width: 600px;">
                             <h3>Profil Düzenleme</h3>
                             <br />
-                            <form class="form-valide" action="#" method="post">
+                            <form asp-action="UserDetail" method="post">
                                 <div class="form-group">
-                                    <label for="val-username">Ad</label>
-                                    <input type="text" class="form-control" id="val-username" name="val-username" >
+                                    <label>Ad</label>
+                                    <input asp-for="Name" class="form-control" required/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="val-email">Soyad</label>
-                                    <input type="text" class="form-control" id="val-email" name="val-email" >
+                                    <label>Soyad</label>
+                                    <input asp-for="Surname" class="form-control" required />
                                 </div>
                                 <div class="form-group">
-                                    <label for="val-password">Mail Adresi</label>
-                                    <input type="email" class="form-control" id="val-password" name="val-password">
+                                    <label>Email</label>
+                                    <input asp-for="Email" class="form-control" required />
                                 </div>
                                 <div class="form-group">
-                                    <label for="val-password">Kullanıcı Adı</label>
-                                    <input type="email" class="form-control" id="val-password" name="val-password">
+                                    <label>Kullanıcı Adı</label>
+                                    <input asp-for="Username" class="form-control" required />
                                 </div>
                                 <div class="form-group">
-                                    <label for="val-confirm-password">Şifre</label>
-                                    <input type="password" class="form-control" id="val-confirm-password" name="val-confirm-password">
+                                    <label>Telefon</label>
+                                    <input asp-for="PhoneNumber" class="form-control" required />
                                 </div>
                                 <div class="form-group">
-                                    <label for="val-phoneus">Telefon</label>
-                                    <input type="text" class="form-control" id="val-phoneus" name="val-phoneus">
+                                    <label>Görsel Url</label>
+                                    <input asp-for="ImageUrl" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Yeni Şifre (değiştirmek istiyorsan)</label>
+                                    <input asp-for="Password" type="password" class="form-control" />
                                 </div>
                                 <div class="form-group text-right">
                                     <button type="submit" class="btn btn-primary">Güncelle</button>

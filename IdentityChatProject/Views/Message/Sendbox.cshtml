@@ -27,33 +27,44 @@
                     @await Component.InvokeAsync("_MessageSidebarComponentPartial")
                     <div class="email-right-box">
                         <div role="toolbar" class="toolbar">
-                            <div class="btn-group">
-                                <button class="btn btn-primary btn-block" type="button" style="width: 820px;">
-                                    Giden Kutusu <span class="caret m-l-5"></span>
-                                </button>
-                            </div>
+                            <form method="get">
+                                <input type="text" name="p" value="@Context.Request.Query["p"]" placeholder="Mesajlarda ara..." class="form-control" style="width: 300px; display: inline-block;" />
+                                <input type="submit" value="Ara" class="btn btn-primary" />
+                            </form>
                         </div>
                         <br />
                         <div class="email-list m-t-15">
                             @foreach (var item in Model)
                             {
-                                count++;
-                                <div class="message">
-                                    <a href="/Message/MessageDetail/@item.MessageId">
-                                        <div class="col-mail col-mail-1">
-                                            <div class="email-checkbox">
-                                                <span class="star-toggle ti-star">@count</span>
-                                            </div>
+                                <a href="/Message/MessageDetail/@item.MessageId" class="d-flex justify-content-between align-items-center border-bottom py-2 px-2 text-decoration-none" style="color: inherit;">
+                                    <!-- Sol ikon -->
+                                    <div class="d-flex align-items-center" style="width: 30px;">
+                                        <i class="fa fa-paper-plane text-success"></i>
+                                    </div>
+
+                                    <!-- Orta içerik: Alıcı, Konu ve Özet -->
+                                    <div class="flex-grow-1 mx-3 overflow-hidden">
+                                        <div class="fw-bold text-dark text-truncate" style="max-width: 100%;">
+                                            <b>
+                                                @item.ReceiverEmail  <!-- Alıcı bilgisi -->
+                                                <span class="text-muted">| Konu: @item.Subject</span>
+                                            </b>
                                         </div>
-                                        <div class="col-mail col-mail-2">
-                                            <span style="color:darkblue; margin-right: 50px;"><strong>Konu:</strong> @item.Subject</span>
-                                            <span class="text-muted">@((item.MessageDetail?.Length ?? 0) > 50 ? item.MessageDetail.Substring(0, 50) + "..." : item.MessageDetail)</span>
-                                            <div class="date">@item.SendDate.ToShortDateString()</div>
+                                        <div class="text-muted text-truncate" style="max-width: 100%;">
+                                            @((item.MessageDetail?.Length ?? 0) > 50
+                                                ? item.MessageDetail.Substring(0, 50) + "..."
+                                                : item.MessageDetail)
                                         </div>
-                                    </a>
-                                </div>
+                                    </div>
+
+                                    <!-- Sağ tarih -->
+                                    <div class="text-muted text-end" style="width: 100px;">
+                                        @item.SendDate.ToShortDateString()
+                                    </div>
+                                </a>
                             }
                         </div>
+
                     </div>
                 </div>
             </div>
